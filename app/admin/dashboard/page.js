@@ -439,7 +439,13 @@ export default function AdminDashboard() {
           <h2 className="text-2xl font-bold text-gray-900 mb-6">
             Quick Actions
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <a
+              href="/admin/substack-logs"
+              className="bg-purple-100 hover:bg-purple-200 text-purple-700 px-6 py-3 rounded-lg text-center transition-colors"
+            >
+              View Search Logs
+            </a>
             <a
               href="/"
               className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-3 rounded-lg text-center transition-colors"
