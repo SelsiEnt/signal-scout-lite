@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>2050 Merch Store</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #0a174e;
+      color: #fff;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+    .stars {
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+    header {
+      background: rgba(10, 23, 78, 0.95);
+      padding: 2rem 0 1rem 0;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    header h1 {
+      font-size: 3rem;
+      letter-spacing: 0.1em;
+      margin: 0;
+      color: #fff;
+      text-shadow: 0 0 10px #1a237e, 0 0 20px #fff;
+    }
+    header p {
+      font-size: 1.3rem;
+      color: #b3c7f7;
+      margin-top: 0.5rem;
+    }
+    .products {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      padding: 3rem 2rem;
+      position: relative;
+      z-index: 1;
+    }
+    .product-card {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid #1a237e;
+      border-radius: 1.2rem;
+      box-shadow: 0 4px 24px rgba(10,23,78,0.2);
+      width: 270px;
+      padding: 2rem 1.5rem 1.5rem 1.5rem;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+      color: #fff;
+    }
+    .product-card:hover {
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 8px 32px rgba(10,23,78,0.4);
+      background: rgba(255,255,255,0.12);
+    }
+    .product-card img {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      margin-bottom: 1rem;
+      border-radius: 50%;
+      background: #fff;
+      padding: 0.5rem;
+      box-shadow: 0 0 12px #1a237e44;
+    }
+    .product-card h2 {
+      font-size: 1.3rem;
+      margin: 0.5rem 0 0.3rem 0;
+      color: #b3c7f7;
+    }
+    .product-card p {
+      font-size: 1rem;
+      color: #e3e9ff;
+      margin: 0.5rem 0 1rem 0;
+    }
+    .product-card .price {
+      font-size: 1.2rem;
+      color: #fff;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .buy-btn {
+      background: #1a237e;
+      color: #fff;
+      border: none;
+      border-radius: 2rem;
+      padding: 0.7rem 2rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      box-shadow: 0 2px 8px #0a174e44;
+    }
+    .buy-btn:hover {
+      background: #0a174e;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem 0 1rem 0;
+      color: #b3c7f7;
+      font-size: 1rem;
+      background: rgba(10, 23, 78, 0.95);
+      position: relative;
+      z-index: 1;
+      margin-top: 2rem;
+    }
+    @media (max-width: 800px) {
+      .products {
+        flex-direction: column;
+        align-items: center;
+        padding: 2rem 0.5rem;
+      }
+      .product-card {
+        width: 90vw;
+        max-width: 350px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas class="stars"></canvas>
+  <header>
+    <h1>2050 Merch Store</h1>
+    <p>Futuristic fashion &amp; gear for the next generation. Shine bright in 2050!</p>
+  </header>
+  <main>
+    <section class="products">
+      <div class="product-card">
+        <img src="https://img.icons8.com/ios-filled/100/1a237e/t-shirt.png" alt="2050 T-Shirt">
+        <h2>2050 Holo-Tee</h2>
+        <p>Lightweight, color-shifting tee with embedded nano-lights. Stand out in the crowd!</p>
+        <span class="price">$50</span>
+        <button class="buy-btn">Buy Now</button>
+      </div>
+      <div class="product-card">
+        <img src="https://img.icons8.com/ios-filled/100/1a237e/cap.png" alt="2050 Cap">
+        <h2>Stellar Cap</h2>
+        <p>Dark blue cap with glowing star patterns. Adjustable, unisex, and ultra-cool.</p>
+        <span class="price">$35</span>
+        <button class="buy-btn">Buy Now</button>
+      </div>
+      <div class="product-card">
+        <img src="https://img.icons8.com/ios-filled/100/1a237e/hoodie.png" alt="2050 Hoodie">
+        <h2>Galactic Hoodie</h2>
+        <p>Cozy white hoodie with a constellation print and hidden tech pockets.</p>
+        <span class="price">$80</span>
+        <button class="buy-btn">Buy Now</button>
+      </div>
+      <div class="product-card">
+        <img src="https://img.icons8.com/ios-filled/100/1a237e/backpack.png" alt="2050 Backpack">
+        <h2>Zero-G Backpack</h2>
+        <p>Anti-grav inspired backpack with luminous trims and starry lining.</p>
+        <span class="price">$65</span>
+        <button class="buy-btn">Buy Now</button>
+      </div>
+    </section>
+  </main>
+  <footer>
+    &copy; 2050 Merch Store. All rights reserved. <span style="color:#fff;">&#9733;</span>
+  </footer>
+  <script>
+    // Starfield animation
+    const canvas = document.querySelector('.stars');
+    const ctx = canvas.getContext('2d');
+    let w = window.innerWidth;
+    let h = window.innerHeight;
+    let stars = [];
+
+    function resize() {
+      w = window.innerWidth;
+      h = window.innerHeight;
+      canvas.width = w;
+      canvas.height = h;
+    }
+
+    function createStars() {
+      stars = [];
+      const numStars = Math.floor((w * h) / 1200);
+      for (let i = 0; i < numStars; i++) {
+        stars.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          r: Math.random() * 1.2 + 0.3,
+          o: Math.random() * 0.5 + 0.5,
+          speed: Math.random() * 0.15 + 0.02
+        });
+      }
+    }
+
+    function drawStars() {
+      ctx.clearRect(0, 0, w, h);
+      for (let star of stars) {
+        ctx.save();
+        ctx.globalAlpha = star.o;
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.r, 0, 2 * Math.PI);
+        ctx.fillStyle = "#fff";
+        ctx.shadowColor = "#b3c7f7";
+        ctx.shadowBlur = 8;
+        ctx.fill();
+        ctx.restore();
+
+        // Twinkle
+        if (Math.random() > 0.98) {
+          star.o = Math.random() * 0.5 + 0.5;
+        }
+
+        // Move star downward for a parallax effect
+        star.y += star.speed;
+        if (star.y > h) {
+          star.x = Math.random() * w;
+          star.y = 0;
+        }
+      }
+      requestAnimationFrame(drawStars);
+    }
+
+    window.addEventListener('resize', () => {
+      resize();
+      createStars();
+    });
+
+    resize();
+    createStars();
+    drawStars();
+  </script>
+</body>
+</html>
