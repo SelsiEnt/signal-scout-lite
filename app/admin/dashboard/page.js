@@ -439,7 +439,13 @@ export default function AdminDashboard() {
           <h2 className="text-2xl font-bold text-gray-900 mb-6">
             Quick Actions
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
+            <a
+              href="/admin/searchable-feeds"
+              className="bg-indigo-100 hover:bg-indigo-200 text-indigo-700 px-6 py-3 rounded-lg text-center transition-colors"
+            >
+              Searchable Feeds
+            </a>
             <a
               href="/admin/rss-feeds"
               className="bg-orange-100 hover:bg-orange-200 text-orange-700 px-6 py-3 rounded-lg text-center transition-colors"
