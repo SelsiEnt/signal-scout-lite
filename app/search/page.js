@@ -138,6 +138,24 @@ export default function SearchPage() {
             </button>
           </div>
         </div>
+
+        {/* Donate Section */}
+        <div className="mt-8 pt-6 border-t border-gray-200">
+          <div className="text-center">
+            <p className="text-sm text-gray-600 mb-4">
+              Help us support independent journalism
+            </p>
+            <button
+              onClick={() => alert('Thank you for supporting Signal Scout Lite! Contact us at support@signalscoutlite.com to arrange a donation.')}
+              className="bg-green-600 text-white py-2 px-6 rounded-lg font-medium hover:bg-green-700 transition-colors flex items-center gap-2 mx-auto"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+              </svg>
+              Support Independent Journalism
+            </button>
+          </div>
+        </div>
       </div>
     </main>
   )

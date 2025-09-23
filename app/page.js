@@ -26,6 +26,11 @@ export default function LandingPage() {
     router.push('/search?demo=1')
   }
 
+  function handleDonate() {
+    // For now, we'll use a simple alert. In production, you'd integrate with Stripe, PayPal, etc.
+    alert('Thank you for your interest in supporting Signal Scout Lite! Please contact us at support@signalscoutlite.com to arrange a donation. Your support helps us highlight independent journalists and build a better media ecosystem.')
+  }
+
   return (
     <main className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-slate-50 to-gray-100">
       <div className="max-w-lg w-full bg-white rounded-xl shadow-lg p-10 border border-gray-200">
@@ -140,6 +145,34 @@ export default function LandingPage() {
           </svg>
           Try Demo Mode
         </button>
+
+        {/* Action Buttons */}
+        <div className="mt-6 pt-6 border-t border-gray-200">
+          <div className="grid grid-cols-1 gap-4">
+            <button
+              onClick={handleDonate}
+              className="bg-green-600 text-white py-2 px-6 rounded-lg font-medium hover:bg-green-700 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors flex items-center justify-center gap-2"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+              </svg>
+              Donate to Support Independent Journalism
+            </button>
+            
+            <button
+              onClick={() => router.push('/suggest-journalist')}
+              className="bg-blue-600 text-white py-2 px-6 rounded-lg font-medium hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors flex items-center justify-center gap-2"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
+              </svg>
+              Suggest a Journalist
+            </button>
+          </div>
+          <p className="text-center text-sm text-gray-600 mt-3">
+            Help us discover and highlight independent voices
+          </p>
+        </div>
 
         {/* Footer */}
         <div className="text-center mt-8 text-sm text-gray-500">
