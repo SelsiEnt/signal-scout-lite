@@ -30,6 +30,20 @@ export default function AdminLogin() {
   return (
     <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-gray-100">
       <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8 border border-gray-200">
+        {/* Navigation Header */}
+        <div className="mb-6">
+          <button
+            onClick={() => router.push('/')}
+            className="flex items-center gap-3 text-blue-600 hover:text-blue-800 transition-colors"
+          >
+            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+            <h1 className="text-xl font-bold">Signal Scout Lite</h1>
+          </button>
+        </div>
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-red-600 rounded-lg mb-6">
             <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -14,6 +14,7 @@ export default function AdminDashboard() {
   const [showSubstackSearch, setShowSubstackSearch] = useState(false)
   const [substackQuery, setSubstackQuery] = useState('')
   const [searchLoading, setSearchLoading] = useState(false)
+  const [processingFeeds, setProcessingFeeds] = useState(false)
   const router = useRouter()
 
   // Check authentication on component mount
@@ -29,11 +30,18 @@ export default function AdminDashboard() {
     }
   }, [router])
 
-  // Load existing feeds from localStorage
-  const loadFeeds = () => {
-    const savedFeeds = localStorage.getItem('rss_feeds')
-    if (savedFeeds) {
-      setFeeds(JSON.parse(savedFeeds))
+  // Load existing feeds from Supabase
+  const loadFeeds = async () => {
+    try {
+      const response = await fetch('/api/feeds')
+      if (response.ok) {
+        const data = await response.json()
+        setFeeds(data.feeds || [])
+      } else {
+        setError('Failed to load feeds')
+      }
+    } catch (err) {
+      setError('Failed to load feeds')
     }
   }
 
@@ -68,27 +76,74 @@ export default function AdminDashboard() {
       return
     }
 
-    const feedToAdd = {
-      id: Date.now(),
-      name: publication.name,
-      url: publication.rss_url,
-      description: publication.description,
-      addedAt: new Date().toISOString(),
-      source: 'Substack',
-      category: publication.category,
-      website: publication.url
-    }
+    try {
+      // Add Substack feed to Supabase
+      const response = await fetch('/api/feeds', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: publication.name,
+          url: publication.rss_url,
+          description: publication.description,
+          source: 'Substack',
+          category: publication.category,
+          website_url: publication.url,
+          added_by: 'admin'
+        })
+      })
 
-    const updatedFeeds = [...feeds, feedToAdd]
-    setFeeds(updatedFeeds)
-    localStorage.setItem('rss_feeds', JSON.stringify(updatedFeeds))
-    setMessage(`Successfully added "${publication.name}" from Substack`)
-    setShowSubstackSearch(false)
+      if (response.ok) {
+        const data = await response.json()
+        // Add to local state
+        setFeeds([...feeds, data.feed])
+        setMessage(`Successfully added "${publication.name}" from Substack`)
+        setShowSubstackSearch(false)
+      } else {
+        const errorData = await response.json()
+        setError(errorData.error || 'Failed to add Substack feed')
+      }
+    } catch (err) {
+      setError('Failed to add Substack feed. Please try again.')
+    }
   }
 
   // Check for duplicate feeds
   const isDuplicateFeed = (url) => {
     return feeds.some(feed => feed.url.toLowerCase() === url.toLowerCase())
+  }
+
+  // Process all RSS feeds to fetch articles
+  const processFeeds = async () => {
+    setProcessingFeeds(true)
+    setError('')
+    setMessage('')
+    
+    try {
+      const response = await fetch('/api/feeds/process', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ processAll: true })
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        setMessage(`Successfully processed ${data.processedFeeds} feeds. Check results for details.`)
+        
+        // Log results for debugging
+        console.log('Processing results:', data.results)
+      } else {
+        const errorData = await response.json()
+        setError(errorData.error || 'Failed to process feeds')
+      }
+    } catch (err) {
+      setError('Failed to process feeds. Please try again.')
+    }
+    
+    setProcessingFeeds(false)
   }
 
   // Validate RSS feed URL
@@ -128,26 +183,33 @@ export default function AdminDashboard() {
     }
 
     try {
-      // Create new feed object
-      const feedToAdd = {
-        id: Date.now(),
-        name: newFeed.name.trim(),
-        url: newFeed.url.trim(),
-        description: newFeed.description.trim(),
-        addedAt: new Date().toISOString(),
-        source: 'Substack'
-      }
+      // Add feed to Supabase
+      const response = await fetch('/api/feeds', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: newFeed.name.trim(),
+          url: newFeed.url.trim(),
+          description: newFeed.description.trim(),
+          source: 'Manual',
+          added_by: 'admin'
+        })
+      })
 
-      // Add to feeds array
-      const updatedFeeds = [...feeds, feedToAdd]
-      setFeeds(updatedFeeds)
-      
-      // Save to localStorage
-      localStorage.setItem('rss_feeds', JSON.stringify(updatedFeeds))
-      
-      // Reset form
-      setNewFeed({ name: '', url: '', description: '' })
-      setMessage(`Successfully added "${feedToAdd.name}" RSS feed`)
+      if (response.ok) {
+        const data = await response.json()
+        // Add to local state
+        setFeeds([...feeds, data.feed])
+        
+        // Reset form
+        setNewFeed({ name: '', url: '', description: '' })
+        setMessage(`Successfully added "${data.feed.name}" RSS feed`)
+      } else {
+        const errorData = await response.json()
+        setError(errorData.error || 'Failed to add RSS feed')
+      }
       
     } catch (err) {
       setError('Failed to add RSS feed. Please try again.')
@@ -185,6 +247,20 @@ export default function AdminDashboard() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-50 to-gray-100 py-10">
       <div className="max-w-6xl mx-auto px-4">
+        {/* Navigation Header */}
+        <div className="mb-8">
+          <button
+            onClick={() => router.push('/')}
+            className="flex items-center gap-3 text-blue-600 hover:text-blue-800 transition-colors"
+          >
+            <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+            <h1 className="text-2xl font-bold">Signal Scout Lite</h1>
+          </button>
+        </div>
         {/* Header */}
         <div className="bg-white rounded-xl shadow-lg p-8 mb-8 border border-gray-200">
           <div className="flex items-center justify-between mb-6">
@@ -297,6 +373,20 @@ export default function AdminDashboard() {
                 {loading ? 'Adding Feed...' : 'Add RSS Feed'}
               </button>
             </form>
+
+            {/* Process Feeds Button */}
+            <div className="mt-6">
+              <button
+                onClick={processFeeds}
+                disabled={processingFeeds || feeds.length === 0}
+                className="w-full bg-green-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-green-700 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {processingFeeds ? 'Processing Feeds...' : `Process All ${feeds.length} RSS Feeds`}
+              </button>
+              <p className="text-sm text-gray-500 mt-2">
+                This will fetch the latest articles from all active RSS feeds and store them in the database for search.
+              </p>
+            </div>
 
             {/* Substack Integration */}
             <div className="mt-8 pt-8 border-t border-gray-200">

@@ -149,6 +149,20 @@ export default function JournalistSuggestionsPage() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-50 to-gray-100 py-10">
       <div className="max-w-7xl mx-auto px-4">
+        {/* Navigation Header */}
+        <div className="mb-8">
+          <button
+            onClick={() => router.push('/')}
+            className="flex items-center gap-3 text-blue-600 hover:text-blue-800 transition-colors"
+          >
+            <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+            <h1 className="text-2xl font-bold">Signal Scout Lite</h1>
+          </button>
+        </div>
         {/* Header */}
         <div className="bg-white rounded-xl shadow-lg p-8 mb-8 border border-gray-200">
           <div className="flex items-center justify-between mb-6">
